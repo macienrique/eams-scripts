@@ -1,9 +1,9 @@
-import { Compress } from "gzipper";
-import path from "path";
+import { Compress } from 'gzipper';
+import path from 'path';
 
 const compressFiles = async () => {
-  const buildPath = path.join(process.cwd(), "build");
-  const extensionsToCompress = ["js", "css", "svg", "jpeg", "png"];
+  const buildPath = path.join(process.cwd(), 'build');
+  const extensionsToCompress = ['js', 'css', 'svg', 'jpeg', 'png'];
 
   const gzip = new Compress(buildPath, buildPath, {
     incremental: true,
@@ -15,12 +15,10 @@ const compressFiles = async () => {
   const brotli = new Compress(buildPath, buildPath, {
     brotli: true,
     include: extensionsToCompress,
-    brotliParamMode: "text",
+    brotliParamMode: 'text',
     brotliQuality: 11,
     threshold: 0,
   });
-
-  console.log("COMPRESSING CUZIN", buildPath);
 
   try {
     await Promise.all([gzip.run(), brotli.run()]);
