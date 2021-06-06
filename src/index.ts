@@ -1,29 +1,36 @@
 #!/usr/bin/env node
 
 import build from './commands/build/build';
+import check from './commands/check/check';
+import lint from './commands/lint/lint';
+import test from './commands/test/test';
 import { Environments, ScriptArguments } from './domain/script-arguments';
+import { greenConsole, redConsole } from './util/chalk-console';
 
-const [nodeEngine, , ...scriptParams] = process.argv;
+const [, , ...scriptParams] = process.argv;
 
-const instruction: ScriptArguments = scriptParams[0] as ScriptArguments;
+const [instruction, ...argParams] = scriptParams;
 console.log('scripts', scriptParams);
+
+greenConsole(`You're running: eams-scripts ${instruction}`);
+greenConsole(`With params: ${scriptParams}`);
 
 switch (instruction) {
   case ScriptArguments.Start:
-    console.log('starting', instruction);
     break;
   case ScriptArguments.Build:
     const environment = scriptParams[1] as Environments;
     build(environment);
-    console.log('building', instruction);
     break;
   case ScriptArguments.Test:
-    console.log('testing', instruction);
+    test(argParams);
+    break;
+  case ScriptArguments.Check:
+    check();
+    break;
+  case ScriptArguments.Lint:
+    lint('-w');
     break;
   default:
-    console.log('omg wrong argument', instruction);
+    redConsole(`Wrong argument: ${instruction}`);
 }
-
-console.log('node', nodeEngine);
-console.log('khal drogo args', scriptParams);
-console.log('cwd', process.cwd());

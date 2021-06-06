@@ -5,6 +5,7 @@ import { Environments, isCorrectEnvironment } from '../../domain/script-argument
 import bundleReact from '../../util/bundle-react';
 import compress from '../../util/compress';
 import getCommandBinPath from '../../util/get-command';
+import handleProcess from '../../util/handle-process';
 
 const reactScripts = 'react-scripts';
 
@@ -33,9 +34,7 @@ const build = (environment = Environments.Local) => {
         stdio: 'inherit',
         shell: true,
       });
-      if (preBuild.status !== 0) {
-        return;
-      }
+      handleProcess('PRE BUILD', preBuild);
     }
 
     const buildCommand = `${crossEnvBinPath} GENERATE_SOURCEMAP=${shouldGenSourceMap} ${dotenvBinPath} -e .env.${environment} ${reactScriptsBinPath} build`;
@@ -43,17 +42,13 @@ const build = (environment = Environments.Local) => {
       stdio: 'inherit',
       shell: true,
     });
-    if (buildProcess.status !== 0) {
-      return;
-    }
+    handleProcess('BUILD', buildProcess);
 
     const postBuild = spawn.sync(`${rimrafBinPath} build/index.html build/asset-manifest.json`, {
       stdio: 'inherit',
       shell: true,
     });
-    if (postBuild.status !== 0) {
-      return;
-    }
+    handleProcess('POST BUILD', postBuild);
 
     if (environment !== Environments.Local) {
       bundleReact();
