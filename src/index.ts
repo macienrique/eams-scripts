@@ -3,6 +3,7 @@
 import build from './commands/build/build';
 import check from './commands/check/check';
 import lint from './commands/lint/lint';
+import start from './commands/start/start';
 import test from './commands/test/test';
 import { Environments, ScriptArguments } from './domain/script-arguments';
 import { greenConsole, redConsole } from './util/chalk-console';
@@ -13,10 +14,11 @@ const [instruction, ...argParams] = scriptParams;
 console.log('scripts', scriptParams);
 
 greenConsole(`You're running: eams-scripts ${instruction}`);
-greenConsole(`With params: ${scriptParams}`);
+greenConsole(`With params: ${argParams}`);
 
 switch (instruction) {
   case ScriptArguments.Start:
+    start();
     break;
   case ScriptArguments.Build:
     const environment = scriptParams[1] as Environments;
