@@ -2,9 +2,9 @@ import spawn from 'cross-spawn';
 import { redConsole } from '../../util/chalk-console';
 import getCommandBinPath from '../../util/get-command';
 
-const lint = (command: string) => {
+const lint = (commands: string[]) => {
   const prettierBinPath = getCommandBinPath('prettier');
-  const lintProcess = spawn.sync(prettierBinPath, [command, 'src'], {
+  const lintProcess = spawn.sync(prettierBinPath, commands, {
     stdio: 'inherit',
     shell: true,
   });

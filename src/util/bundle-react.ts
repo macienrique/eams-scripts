@@ -1,7 +1,7 @@
-import chalk from 'chalk';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import util from 'util';
+import { greenConsole, redConsole } from './chalk-console';
 
 const writeFile = util.promisify(fs.writeFile);
 
@@ -21,9 +21,9 @@ const bundleReact = async () => {
   try {
     await writeFile(`${outputDir}/${outputFilename}`, JSON.stringify(bundlesContent));
 
-    console.log(chalk.green('Generated:', outputFilename));
+    greenConsole(`Generated: ${outputFilename}`);
   } catch (e) {
-    console.log(chalk.red(e.message));
+    redConsole(e.message);
     process.exit(1);
   }
 };
