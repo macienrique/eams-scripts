@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { Environments, isCorrectEnvironment } from '../../domain/script-arguments';
 import bundleReact from '../../util/bundle-react';
+import { redConsole } from '../../util/chalk-console';
 import compress from '../../util/compress';
 import getCommandBinPath from '../../util/get-command';
 import handleProcess from '../../util/handle-process';
@@ -11,8 +12,8 @@ const reactScripts = 'react-scripts';
 
 const build = (environment = Environments.Local) => {
   if (!isCorrectEnvironment(environment)) {
-    console.log('incorrect environment', environment);
-    return;
+    redConsole(`Incorrect environment: ${environment}`);
+    process.exit(1);
   }
 
   const localPackageJSONPath = path.resolve(process.cwd(), 'package.json');

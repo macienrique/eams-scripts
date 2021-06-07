@@ -1,6 +1,7 @@
 import spawn from 'cross-spawn';
 import fs from 'fs';
 import path from 'path';
+import { redConsole } from '../../util/chalk-console';
 import getCommandBinPath from '../../util/get-command';
 import handleProcess from '../../util/handle-process';
 
@@ -23,8 +24,9 @@ const test = (args: string[] = []) => {
     if (filesToTest.length > 0 && hasCoverageInArgs) {
       const sourceFiles = filesToTest.map((testFile) => {
         const sourceFile = testFile.replace('__tests__/', '').replace('.test', '');
+
         if (!fs.existsSync(sourceFile)) {
-          console.error(`The test file: ${testFile} does not have a corresponding source file: ${sourceFile}`);
+          redConsole(`The test file: ${testFile} does not have a corresponding source file: ${sourceFile}`);
           process.exit(1);
         }
 
