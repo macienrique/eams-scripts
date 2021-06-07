@@ -18,11 +18,17 @@ const setupEAMS = async () => {
   const updatedTSConfig = { ...localTSConfig, compilerOptions: { ...localTSConfig.compilerOptions, ...TS_CONFIG_PROPS } };
 
   try {
-    await writeFile('package.json', JSON.stringify(updatedPackageJSON));
-    await writeFile('tsconfig.json', JSON.stringify(updatedTSConfig));
-    lint(['-w', 'package.json tsconfig.json']);
+    if (JSON.stringify(localPackageJSON) !== JSON.stringify(updatedPackageJSON)) {
+      await writeFile('package.json', JSON.stringify(updatedPackageJSON));
+      lint(['-w', 'package.json']);
+      greenConsole("Praise the sun! Your package.json is setup with EAMS scripts! You're good to go!");
+    }
 
-    greenConsole("Praise the sun! Your package JSON and TSConfig is setup with EAMS scripts! You're good to go!");
+    if (JSON.stringify(localTSConfig) !== JSON.stringify(updatedTSConfig)) {
+      await writeFile('tsconfig.json', JSON.stringify(updatedTSConfig));
+      lint(['-w', 'tsconfig.json']);
+      greenConsole("God almighty! Your tsconfig.json is setup with EAMS scripts! Go get 'em!");
+    }
   } catch (err) {
     redConsole('Dinkleberg! Something went wrong setting up your EAMS scripts');
   }
