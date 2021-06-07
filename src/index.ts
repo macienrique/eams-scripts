@@ -2,6 +2,7 @@
 
 import build from './commands/build/build';
 import check from './commands/check/check';
+import husky from './commands/husky/husky';
 import lint from './commands/lint/lint';
 import start from './commands/start/start';
 import test from './commands/test/test';
@@ -12,7 +13,6 @@ import setupEAMS from './util/setup-eams';
 const [, , ...scriptParams] = process.argv;
 
 const [instruction, ...argParams] = scriptParams;
-console.log('scripts', scriptParams);
 
 greenConsole(`You're running: eams-scripts ${instruction}`);
 if (argParams.length > 0) {
@@ -37,7 +37,13 @@ setupEAMS().then(() => {
     case ScriptArguments.Lint:
       lint(['-w', 'src']);
       break;
+    case ScriptArguments.Husky:
+      husky();
+      break;
     default:
       redConsole(`Wrong argument: ${instruction}`);
+      process.exit(1);
   }
+
+  process.exit(0);
 });
