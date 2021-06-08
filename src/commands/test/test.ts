@@ -37,7 +37,7 @@ const test = (args: string[] = []) => {
     }
 
     const testCommand = `${crossEnvBinPath} NODE_ICU_DATA=node_modules/full-icu ${commandCI}${reactScriptsBinPath} test`;
-    const testProcess = spawn.sync(testCommand, args, {
+    const testProcess = spawn.sync(testCommand, [...args, '--passWithNoTests', '--findRelatedTests'], {
       stdio: 'inherit',
       shell: true,
     });

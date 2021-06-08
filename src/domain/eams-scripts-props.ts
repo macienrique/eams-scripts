@@ -1,6 +1,6 @@
 export const EAMS_SCRIPTS_PROPS = {
   start: 'eams-scripts start',
-  'build:local': 'eams-scripts-scripts build',
+  'build:local': 'eams-scripts build local',
   'build:int': 'eams-scripts build int',
   'build:uat': 'eams-scripts build uat-df',
   'build:uat-ti': 'eams-scripts build uat-ti',
