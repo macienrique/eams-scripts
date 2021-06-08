@@ -19,7 +19,7 @@ const test = (args: string[] = []) => {
     const crossEnvBinPath = getCommandBinPath('cross-env');
     const filesToTest = args.filter((arg) => fs.existsSync(arg) && fs.lstatSync(arg).isFile());
     const hasCoverageInArgs = args.some((arg) => arg === '--coverage');
-    const commandCI = filesToTest.length > 0 && !hasCoverageInArgs ? '' : 'CI=true ';
+    const commandCI = args.some((arg) => arg === '--ci') ? 'CI=true ' : '';
 
     if (filesToTest.length > 0 && hasCoverageInArgs) {
       const sourceFiles = filesToTest.map((testFile) => {
