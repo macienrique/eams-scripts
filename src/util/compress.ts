@@ -1,5 +1,6 @@
 import { Compress } from 'gzipper';
 import path from 'path';
+import { redConsole } from './chalk-console';
 
 const compressFiles = async () => {
   const buildPath = path.join(process.cwd(), 'build');
@@ -23,7 +24,7 @@ const compressFiles = async () => {
   try {
     await Promise.all([gzip.run(), brotli.run()]);
   } catch (err) {
-    console.error(err);
+    redConsole(err);
   }
 };
 

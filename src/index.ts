@@ -25,8 +25,7 @@ setupEAMS().then(() => {
       start();
       break;
     case ScriptArguments.Build:
-      const environment = scriptParams[1] as Environments;
-      build(environment);
+      build(scriptParams[1] as Environments);
       break;
     case ScriptArguments.Test:
       test(argParams);
@@ -35,7 +34,7 @@ setupEAMS().then(() => {
       check();
       break;
     case ScriptArguments.Lint:
-      lint(['-w', 'src']);
+      lint(argParams);
       break;
     case ScriptArguments.Husky:
       husky();

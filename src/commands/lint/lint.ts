@@ -1,10 +1,13 @@
 import spawn from 'cross-spawn';
+import path from 'path';
 import { redConsole } from '../../util/chalk-console';
 import getCommandBinPath from '../../util/get-command';
 
 const lint = (commands: string[]) => {
-  const prettierBinPath = getCommandBinPath('prettier');
-  const lintProcess = spawn.sync(prettierBinPath, commands, {
+  const eslintConfigPath = path.join(__dirname, '../../config-files/eslintrc.js');
+  const eslintBinPath = getCommandBinPath('eslint');
+
+  const lintProcess = spawn.sync(eslintBinPath, ['"src/**/*.{js,jsx,ts,tsx}"', '--no-eslintrc', '-c', eslintConfigPath, ...commands], {
     stdio: 'inherit',
     shell: true,
   });

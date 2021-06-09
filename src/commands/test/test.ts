@@ -20,6 +20,7 @@ const test = (args: string[] = []) => {
     const filesToTest = args.filter((arg) => fs.existsSync(arg) && fs.lstatSync(arg).isFile());
     const hasCoverageInArgs = args.some((arg) => arg === '--coverage');
     const commandCI = args.some((arg) => arg === '--ci') ? 'CI=true ' : '';
+    const hasFilesToTest = filesToTest.length > 0;
 
     if (filesToTest.length > 0 && hasCoverageInArgs) {
       const sourceFiles = filesToTest.map((testFile) => {
@@ -37,10 +38,14 @@ const test = (args: string[] = []) => {
     }
 
     const testCommand = `${crossEnvBinPath} NODE_ICU_DATA=node_modules/full-icu ${commandCI}${reactScriptsBinPath} test`;
-    const testProcess = spawn.sync(testCommand, [...args, '--passWithNoTests', '--findRelatedTests'], {
-      stdio: 'inherit',
-      shell: true,
-    });
+    const testProcess = spawn.sync(
+      testCommand,
+      [...args, '--passWithNoTests', `--findRelatedTests=${hasFilesToTest}`, `--watchAll=${hasFilesToTest}`],
+      {
+        stdio: 'inherit',
+        shell: true,
+      },
+    );
     handleProcess('TEST', testProcess);
   }
 };
