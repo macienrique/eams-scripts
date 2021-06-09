@@ -12,6 +12,9 @@
     "eams-scripts": "build/index.js"
   },
   "main": "index.js",
+  "files": [
+    "config-files"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
