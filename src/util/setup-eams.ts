@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import util from 'util';
-import lint from '../commands/lint/lint';
+import prettier from '../commands/format/prettier';
 import { EAMS_SCRIPTS_PROPS } from '../domain/eams-scripts-props';
 import { TS_CONFIG_PROPS } from '../domain/tsconfig-props';
 import { greenConsole, redConsole } from './chalk-console';
@@ -26,13 +26,13 @@ const setupEAMS = async () => {
   try {
     if (JSON.stringify(localPackageJSON) !== JSON.stringify(updatedPackageJSON)) {
       await writeFile('package.json', JSON.stringify(updatedPackageJSON));
-      lint(['-w', 'package.json']);
+      prettier(['-w', 'package.json']);
       greenConsole("Praise the sun! Your package.json is setup with EAMS scripts! You're good to go!");
     }
 
     if (JSON.stringify(localTSConfig) !== JSON.stringify(updatedTSConfig)) {
       await writeFile('tsconfig.json', JSON.stringify(updatedTSConfig));
-      lint(['-w', 'tsconfig.json']);
+      prettier(['-w', 'tsconfig.json']);
       greenConsole("God almighty! Your tsconfig.json is setup with EAMS scripts! Go get 'em!");
     }
   } catch (err) {

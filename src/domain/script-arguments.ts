@@ -4,7 +4,7 @@ export enum ScriptArguments {
   Build = 'build',
   Test = 'test',
   Check = 'check',
-  Lint = 'lint',
+  Format = 'format',
   Husky = 'husky',
 }
 

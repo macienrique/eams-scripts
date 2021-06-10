@@ -2,8 +2,8 @@
 
 import build from './commands/build/build';
 import check from './commands/check/check';
+import format from './commands/format/format';
 import husky from './commands/husky/husky';
-import lint from './commands/lint/lint';
 import start from './commands/start/start';
 import test from './commands/test/test';
 import { Environments, ScriptArguments } from './domain/script-arguments';
@@ -33,8 +33,8 @@ setupEAMS().then(() => {
     case ScriptArguments.Check:
       check();
       break;
-    case ScriptArguments.Lint:
-      lint(argParams);
+    case ScriptArguments.Format:
+      format(argParams);
       break;
     case ScriptArguments.Husky:
       husky();
