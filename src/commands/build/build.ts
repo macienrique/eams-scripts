@@ -29,27 +29,28 @@ const build = (environment = Environments.Local) => {
     const rimrafBinPath = getCommandBinPath('rimraf');
     const shouldGenSourceMap = environment !== Environments.Production;
     const shouldCleanModules = environment !== Environments.Local;
+    const envFilename = environment === Environments.Local ? '.env' : `.env.${environment}`;
 
     if (shouldCleanModules) {
       const preBuild = spawn.sync('npm ci', {
         stdio: 'inherit',
         shell: true,
       });
-      handleProcess('PRE BUILD', preBuild);
+      handleProcess('Running npm ci', preBuild);
     }
 
-    const buildCommand = `${crossEnvBinPath} GENERATE_SOURCEMAP=${shouldGenSourceMap} ${dotenvBinPath} -e .env.${environment} ${reactScriptsBinPath} build`;
+    const buildCommand = `${crossEnvBinPath} GENERATE_SOURCEMAP=${shouldGenSourceMap} ${dotenvBinPath} -e ${envFilename} ${reactScriptsBinPath} build`;
     const buildProcess = spawn.sync(buildCommand, {
       stdio: 'inherit',
       shell: true,
     });
-    handleProcess('BUILD', buildProcess);
+    handleProcess(`Running eams-scripts build ${environment}`, buildProcess);
 
     const postBuild = spawn.sync(`${rimrafBinPath} build/index.html build/asset-manifest.json`, {
       stdio: 'inherit',
       shell: true,
     });
-    handleProcess('POST BUILD', postBuild);
+    handleProcess(`Running eams-scripts build ${environment}`, postBuild);
 
     if (environment !== Environments.Local) {
       bundleReact();

@@ -6,6 +6,7 @@ export enum ScriptArguments {
   Check = 'check',
   Format = 'format',
   Husky = 'husky',
+  Setup = "setup",
 }
 
 export enum Environments {

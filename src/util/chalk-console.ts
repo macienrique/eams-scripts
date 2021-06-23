@@ -8,3 +8,7 @@ export const redConsole = (message: string) => {
 export const greenConsole = (message: string) => {
   console.log(chalk.green(message));
 };
+
+export const blueConsole = (message: string) => {
+  console.log(chalk.blue(message));
+};

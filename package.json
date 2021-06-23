@@ -1,6 +1,6 @@
 {
   "name": "eams-scripts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A utility to easily build, test, apply eslint and prettier to your react projects",
   "author": "Enrique Andres Macias Santillana <macsantenrique@gmail.com>",
   "license": "MIT",
@@ -33,6 +33,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "gzipper": "^4.5.0",
+    "husky": "^6.0.0",
     "prettier": "^2.3.0",
     "prettier-plugin-organize-imports": "^1.1.1"
   },

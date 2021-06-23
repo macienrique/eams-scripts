@@ -6,10 +6,8 @@ import getCommandBinPath from '../../util/get-command';
 const lint = (commands: string[]) => {
   const eslintConfigPath = path.join(__dirname, '../../config-files/eslintrc.js');
   const eslintBinPath = getCommandBinPath('eslint');
-  commands.push('--ignore-pattern', '"*.json"');
-  commands.push('--ignore-pattern', '"*.snap"');
 
-  const lintProcess = spawn.sync(eslintBinPath, ['--no-eslintrc', '-c', eslintConfigPath, ...commands], {
+  const lintProcess = spawn.sync(eslintBinPath, ['--ext', '.js,.jsx,.ts,.tsx', '--no-eslintrc', '-c', eslintConfigPath, ...commands], {
     stdio: 'inherit',
     shell: true,
   });
