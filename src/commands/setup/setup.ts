@@ -2,11 +2,12 @@ import spawn from 'cross-spawn';
 import fs from 'fs';
 import path from 'path';
 import { EAMS_SCRIPTS_PROPS } from '../../domain/eams-scripts-props';
+import { JEST_PROPS } from '../../domain/jest-props';
 import { TS_CONFIG_PROPS } from '../../domain/tsconfig-props';
 import { greenConsole, redConsole } from '../../util/chalk-console';
 import getCommandBinPath from '../../util/get-command';
 import handleProcess from '../../util/handle-process';
-import prettier from '../format/prettier';
+import prettier from '../prettier/prettier';
 
 interface ObjectInterface {
   [key: string]: string;
@@ -15,7 +16,7 @@ interface ObjectInterface {
 const setupHusky = () => {
   const huskyBinPath = getCommandBinPath('husky');
 
-  const huskyCommand = `${huskyBinPath} install && ${huskyBinPath} add .husky/pre-commit "eams-scripts husky"`;
+  const huskyCommand = `${huskyBinPath} install && ${huskyBinPath} add .husky/pre-commit "npx eams-scripts husky" && ${huskyBinPath} add .husky/pre-commit "npm run build:local"`;
   const huskyProcess = spawn.sync(huskyCommand, {
     stdio: 'inherit',
     shell: true,
@@ -25,7 +26,7 @@ const setupHusky = () => {
 
 const setup = () => {
   const localPackageJSONPath = path.resolve(process.cwd(), 'package.json');
-  const { husky, ...restPackageJSON } = JSON.parse(fs.readFileSync(localPackageJSONPath, 'utf-8'));
+  const { husky, jest, ...restPackageJSON } = JSON.parse(fs.readFileSync(localPackageJSONPath, 'utf-8'));
   const eamsProps = Object.keys(EAMS_SCRIPTS_PROPS);
   const customScripts = Object.entries(restPackageJSON.scripts as ObjectInterface).reduce((acc: ObjectInterface, [name, script]) => {
     const isInEAMSProps = eamsProps.some((prop) => prop === name);
@@ -35,9 +36,24 @@ const setup = () => {
 
     return acc;
   }, {});
+
+  let newJestConfig = { snapshotSerializers: JEST_PROPS.snapshotSerializers };
+  if (jest) {
+    newJestConfig = { ...jest, ...newJestConfig };
+
+    if (jest.snapshotSerializers) {
+      const customSerializers = jest.snapshotSerializers.filter(
+        (serializer: string) => !JEST_PROPS.snapshotSerializers.includes(serializer),
+      );
+      const updatedSerializer = [...customSerializers, ...JEST_PROPS.snapshotSerializers];
+      newJestConfig = { ...newJestConfig, snapshotSerializers: updatedSerializer };
+    }
+  }
+
   const updatedPackageJSON = {
     ...restPackageJSON,
     scripts: { ...EAMS_SCRIPTS_PROPS, ...customScripts },
+    jest: newJestConfig,
   };
 
   const localTSConfigPath = path.resolve(process.cwd(), 'tsconfig.json');
@@ -52,7 +68,7 @@ const setup = () => {
   }
 
   try {
-    if (JSON.stringify({ husky, ...restPackageJSON }) !== JSON.stringify(updatedPackageJSON)) {
+    if (JSON.stringify({ husky, ...restPackageJSON, jest }) !== JSON.stringify(updatedPackageJSON)) {
       fs.writeFileSync('package.json', JSON.stringify(updatedPackageJSON));
       prettier(['-w', 'package.json']);
       greenConsole("Praise the sun! Your package.json is setup with EAMS scripts! You're good to go!");

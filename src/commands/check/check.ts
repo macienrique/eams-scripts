@@ -1,7 +1,7 @@
 import { Environments } from '../../domain/script-arguments';
 import build from '../build/build';
 import lint from '../format/lint';
-import prettier from '../format/prettier';
+import prettier from '../prettier/prettier';
 import test from '../test/test';
 
 const check = () => {

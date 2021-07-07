@@ -42,7 +42,7 @@ const test = (args: string[] = []) => {
     const testCommand = `${crossEnvBinPath} NODE_ICU_DATA=node_modules/full-icu ${commandCI}${reactScriptsBinPath} test`;
     const testProcess = spawn.sync(
       testCommand,
-      ['--passWithNoTests', `--findRelatedTests=${hasFilesToTest}`, `--watchAll=${hasFilesToTest}`, ...args],
+      ['--passWithNoTests', `--findRelatedTests=${hasFilesToTest}`, `--watchAll=${!commandCI}`, ...args],
       {
         stdio: 'inherit',
         shell: true,

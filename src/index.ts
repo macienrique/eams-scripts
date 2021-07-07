@@ -4,6 +4,7 @@ import build from './commands/build/build';
 import check from './commands/check/check';
 import format from './commands/format/format';
 import husky from './commands/husky/husky';
+import prettier from './commands/prettier/prettier';
 import setup from './commands/setup/setup';
 import start from './commands/start/start';
 import test from './commands/test/test';
@@ -37,6 +38,9 @@ switch (instruction) {
     break;
   case ScriptArguments.Format:
     format(argParams.length === 0 ? ['"src"'] : argParams);
+    break;
+  case ScriptArguments.Prettier:
+    prettier(argParams.length === 0 ? ['-w', '"src"'] : ['-w', ...argParams]);
     break;
   case ScriptArguments.Husky:
     husky();

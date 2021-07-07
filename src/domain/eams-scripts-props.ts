@@ -9,7 +9,8 @@ export const EAMS_SCRIPTS_PROPS = {
   'build:prod': 'eams-scripts build prod',
   check: 'eams-scripts check',
   format: 'eams-scripts format',
+  prettier: 'eams-scripts prettier',
   test: 'eams-scripts test',
   'test:coverage': 'eams-scripts test --coverage',
-  'setup-eams': 'eams-scripts setup',
+  'eams:setup': 'eams-scripts setup',
 };
