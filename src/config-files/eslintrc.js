@@ -27,6 +27,7 @@ module.exports = {
     'consistent-return': 'off',
     'no-undef': 'off',
     camelcase: ['error', { properties: 'never' }],
+    'react/prop-types': 'off',
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/jsx-props-no-spreading': 'off',
     'arrow-body-style': 'off',
@@ -44,6 +45,10 @@ module.exports = {
         selector: ['enum', 'interface', 'enumMember'],
         format: ['PascalCase'],
       },
+    ],
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '.prettierrc.js', '.eslintrc.js'] },
     ],
   },
   overrides: [
