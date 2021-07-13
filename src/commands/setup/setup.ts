@@ -14,6 +14,14 @@ interface ObjectInterface {
 }
 
 const setupHusky = () => {
+  const rimrafBinPath = getCommandBinPath('rimraf');
+
+  const removeHusky = spawn.sync(`${rimrafBinPath} .husky`, {
+    stdio: 'inherit',
+    shell: true,
+  });
+  handleProcess(`Removing .husky dir`, removeHusky);
+
   const huskyBinPath = getCommandBinPath('husky');
 
   const huskyCommand = `${huskyBinPath} install && ${huskyBinPath} add .husky/pre-commit "npx eams-scripts husky" && ${huskyBinPath} add .husky/pre-commit "npm run build:local"`;
@@ -22,6 +30,16 @@ const setupHusky = () => {
     shell: true,
   });
   handleProcess('Setting up husky', huskyProcess);
+};
+
+const createFormattingFiles = () => {
+  const eslintFileContent = "module.exports = require('eams-scripts/build/config-files/eslintrc');";
+  const prettierFileContent = "module.exports = require('eams-scripts/build/config-files/prettierrc');";
+
+  fs.writeFileSync('.eslintrc.js', eslintFileContent);
+  fs.writeFileSync('.prettierrc.js', prettierFileContent);
+
+  prettier(['-w', '.eslintrc.js', '.prettierrc.js']);
 };
 
 const setup = () => {
@@ -63,9 +81,8 @@ const setup = () => {
     compilerOptions: { ...localTSConfig.compilerOptions, ...TS_CONFIG_PROPS },
   };
 
-  if (husky) {
-    setupHusky();
-  }
+  setupHusky();
+  createFormattingFiles();
 
   try {
     if (JSON.stringify({ husky, ...restPackageJSON, jest }) !== JSON.stringify(updatedPackageJSON)) {
