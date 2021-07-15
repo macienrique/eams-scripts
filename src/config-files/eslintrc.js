@@ -15,6 +15,7 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks', '@typescript-eslint'],
   rules: {
+    'no-console': 'error',
     'import/extensions': 'off',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],

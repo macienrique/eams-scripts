@@ -1,6 +1,6 @@
 {
   "name": "eams-scripts",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "A utility to easily build, test, apply eslint and prettier to your react projects",
   "author": "Enrique Andres Macias Santillana <macsantenrique@gmail.com>",
   "license": "MIT",

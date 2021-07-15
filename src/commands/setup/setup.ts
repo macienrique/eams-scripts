@@ -45,7 +45,7 @@ const createFormattingFiles = () => {
 const addAdditionalJestConfig = () => {
   const setupTestsPath = path.resolve(process.cwd(), 'src', 'setupTests.ts');
   const addExtendImportText = "\nimport { setupThrowOnConsole } from 'eams-scripts/build/config-files/extend-jest-setup';";
-  const addFunctionCallText = '\nsetupThrowOnConsole();       ';
+  const addFunctionCallText = '\nsetupThrowOnConsole();';
 
   if (fs.existsSync(setupTestsPath)) {
     let localSetupConfig = fs.readFileSync(setupTestsPath, 'utf-8');
