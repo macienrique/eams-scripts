@@ -42,6 +42,29 @@ const createFormattingFiles = () => {
   prettier(['-w', '.eslintrc.js', '.prettierrc.js']);
 };
 
+const addAdditionalJestConfig = () => {
+  const setupTestsPath = path.resolve(process.cwd(), 'src', 'setupTests.ts');
+  const addExtendImportText = "\nimport { setupThrowOnConsole } from 'eams-scripts/build/config-files/extend-jest-setup';";
+  const addFunctionCallText = '\nsetupThrowOnConsole();       ';
+
+  if (fs.existsSync(setupTestsPath)) {
+    let localSetupConfig = fs.readFileSync(setupTestsPath, 'utf-8');
+
+    if (!localSetupConfig.includes(addFunctionCallText)) {
+      localSetupConfig += addExtendImportText;
+      localSetupConfig += addFunctionCallText;
+      fs.writeFileSync('src/setupTests.ts', localSetupConfig);
+      prettier(['-w', 'src/setupTests.ts']);
+    }
+
+    greenConsole(`\n[SUCCESS]: You're enjoying new functionalities in your setupTests.ts`);
+  } else {
+    redConsole(
+      "Odd, it seems that you don't have setupTests.ts in src/setupTests.ts, please add it if you want to enjoy more functionalities",
+    );
+  }
+};
+
 const setup = () => {
   const localPackageJSONPath = path.resolve(process.cwd(), 'package.json');
   const { husky, jest, ...restPackageJSON } = JSON.parse(fs.readFileSync(localPackageJSONPath, 'utf-8'));
@@ -83,6 +106,7 @@ const setup = () => {
 
   setupHusky();
   createFormattingFiles();
+  addAdditionalJestConfig();
 
   try {
     if (JSON.stringify({ husky, ...restPackageJSON, jest }) !== JSON.stringify(updatedPackageJSON)) {
