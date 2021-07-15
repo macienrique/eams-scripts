@@ -11,9 +11,11 @@ const randomSadness = [
 ];
 
 export const generateCongrats = (processName: string) => {
-  greenConsole(`${randomCongrats[Math.floor(randomCongrats.length * Math.random())]} ${processName} has passed!`);
+  greenConsole(`\n[SUCCESS]: ${randomCongrats[Math.floor(randomCongrats.length * Math.random())]} ${processName} has passed!`);
 };
 
 export const generateSadness = (processName: string) => {
-  redConsole(`${randomSadness[Math.floor(randomCongrats.length * Math.random())]} ${processName} has failed, please check the console`);
+  redConsole(
+    `\n[ERROR]: ${randomSadness[Math.floor(randomCongrats.length * Math.random())]} ${processName} has failed, please check the console`,
+  );
 };

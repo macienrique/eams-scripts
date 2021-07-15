@@ -21,9 +21,9 @@ const bundleReact = async () => {
   try {
     await writeFile(`${outputDir}/${outputFilename}`, JSON.stringify(bundlesContent));
 
-    greenConsole(`Generated: ${outputFilename}`);
+    greenConsole(`\n[SUCCESS]: Generated: ${outputFilename}`);
   } catch (e) {
-    redConsole(e.message);
+    redConsole(`\n[ERROR]: ${e.message}`);
     process.exit(1);
   }
 };

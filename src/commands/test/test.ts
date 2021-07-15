@@ -27,7 +27,7 @@ const test = (args: string[] = []) => {
         const sourceFile = testFile.replace('__tests__/', '').replace('.test', '');
 
         if (!fs.existsSync(sourceFile)) {
-          redConsole(`The test file: ${testFile} does not have a corresponding source file: ${sourceFile}`);
+          redConsole(`\n[ERROR]: The test file: ${testFile} does not have a corresponding source file: ${sourceFile}`);
           process.exit(1);
         }
 

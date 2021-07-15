@@ -49,7 +49,7 @@ switch (instruction) {
     setup();
     break;
   default:
-    redConsole(`Wrong argument: ${instruction}`);
+    redConsole(`\n[ERROR]: Wrong argument: ${instruction}`);
     process.exit(1);
 }
 

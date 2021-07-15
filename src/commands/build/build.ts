@@ -12,7 +12,7 @@ const reactScripts = 'react-scripts';
 
 const build = (environment = Environments.Local) => {
   if (!isCorrectEnvironment(environment)) {
-    redConsole(`Incorrect environment: ${environment}`);
+    redConsole(`\n[ERROR]: Incorrect environment: ${environment}`);
     process.exit(1);
   }
 

@@ -24,7 +24,7 @@ const compressFiles = async () => {
   try {
     await Promise.all([gzip.run(), brotli.run()]);
   } catch (err) {
-    redConsole(err);
+    redConsole(`\n[ERROR]: ${err}`);
   }
 };
 

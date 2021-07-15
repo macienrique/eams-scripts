@@ -88,19 +88,19 @@ const setup = () => {
     if (JSON.stringify({ husky, ...restPackageJSON, jest }) !== JSON.stringify(updatedPackageJSON)) {
       fs.writeFileSync('package.json', JSON.stringify(updatedPackageJSON));
       prettier(['-w', 'package.json']);
-      greenConsole("Praise the sun! Your package.json is setup with EAMS scripts! You're good to go!");
+      greenConsole("\n[SUCCESS]: Praise the sun! Your package.json is setup with EAMS scripts! You're good to go!");
     }
 
     if (JSON.stringify(localTSConfig) !== JSON.stringify(updatedTSConfig)) {
       fs.writeFileSync('tsconfig.json', JSON.stringify(updatedTSConfig));
       prettier(['-w', 'tsconfig.json']);
-      greenConsole("God almighty! Your tsconfig.json is setup with EAMS scripts! Go get 'em!");
+      greenConsole("\n[SUCCESS]: God almighty! Your tsconfig.json is setup with EAMS scripts! Go get 'em!");
     }
   } catch (err) {
-    redConsole('Dinkleberg! Something went wrong setting up your EAMS scripts');
+    redConsole('\n[ERROR]: Dinkleberg! Something went wrong setting up your EAMS scripts');
   }
 
-  greenConsole('eams-scripts are all setup!');
+  greenConsole('\n[SUCCESS]: eams-scripts are all setup!');
 };
 
 export default setup;
