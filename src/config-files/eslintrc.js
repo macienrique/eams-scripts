@@ -47,10 +47,7 @@ module.exports = {
         format: ['PascalCase'],
       },
     ],
-    'import/no-extraneous-dependencies': [
-      'error',
-      { devDependencies: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '.prettierrc.js', '.eslintrc.js'] },
-    ],
+    'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.{test,stories}.{ts,tsx}', '.prettierrc.js', '.eslintrc.js'] }],
   },
   overrides: [
     {
@@ -63,6 +60,13 @@ module.exports = {
       files: ['*.test.{ts,tsx}'],
       rules: {
         'no-console': ['error', { allow: ['warn', 'error'] }],
+        'no-global-assign': ['off'],
+      },
+    },
+    {
+      files: ['*.stories.{ts,tsx}'],
+      rules: {
+        'no-console': ['off'],
       },
     },
   ],
